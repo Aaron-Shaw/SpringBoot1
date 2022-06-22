@@ -32,12 +32,21 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+def user = System.env.DOCKER_HUB_USER
+def token = System.env.DOCKER_HUB_TOKEN
+
 jib {
+    project.logger.lifecycle('user '+user)
+
     from {
         image = 'adoptopenjdk/openjdk16:alpine-jre'
     }
 
     to {
-        image = 'my-spring-boot-1:latest'
+        image = 'registry.hub.docker.com/newice7551/my-spring-boot-1:latest'
+        auth {
+            username = user
+            password = token
+        }
     }
 }
